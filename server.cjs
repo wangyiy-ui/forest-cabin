@@ -1,0 +1,3 @@
+const http = require('http'), fs = require('fs'), path = require('path');
+const root = path.join(__dirname, 'dist');
+http.createServer((req,res)=>{const name = req.url.split('?')[0] === '/' ? 'index.html' : decodeURIComponent(req.url.split('?')[0]).replace(/^\/+/, ''); const file=path.resolve(root,name); if(!file.startsWith(root+path.sep)){res.writeHead(403);return res.end();} fs.readFile(file,(err,data)=>{if(err){res.writeHead(404);return res.end('Not found');} res.setHeader('Content-Type',file.endsWith('.js')?'text/javascript; charset=utf-8':'text/html; charset=utf-8');res.end(data);});}).listen(4174,'127.0.0.1',()=>console.log('http://127.0.0.1:4174'));
